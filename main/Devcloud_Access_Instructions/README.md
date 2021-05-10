@@ -49,13 +49,13 @@
 
 ## 1.0 Introduction
 
-Welcome to the FPGA Devcloud. This cloud is an Intel hosted cloud service with Intel XEON processors and FPGA acceleration cards. The FPGA Cloud has a number of development tools installed including Acceleration Stack, and Quartus Prime Lite / Prime Pro development tools. The FPGA Cloud hosts high end FPGA accelerator cards to allow users to experiment with accelerated workloads running on FPGAs.
+Welcome to the FPGA Devcloud. This cloud is an Intel hosted cloud service with Intel Xeon processors and FPGA acceleration cards. The FPGA Cloud has a number of development tools installed including Acceleration Stack, and Quartus Prime Lite / Prime Pro development tools. The FPGA Cloud hosts high end FPGA accelerator cards to allow users to experiment with accelerated workloads running on FPGAs.
 
 These instructions detail how to connect your Windows PC to the devcloud which runs Linux. If you are attempting connectivity from a Mac or Linux machine, we do not offer exact instructions, but you can use the ssh key and config file details described here with other ssh terminals.
 
 When you signed up for the Intel Devcloud, you were presented with three different instances to sign-up for: IOTG, ONEAPI or FPGA. IOTG is a standalone setup with its own login. FPGA is a superset of the ONEAPI instance. At the time of this writing, ONEAPI has 225 nodes and FPGA has 12 nodes. With the FPGA instance you can run all of the features of the ONEAPI instance and gain access to an additional 12 machines that have FPGA PAC cards and associated tools.
 
-This set of instructions superscedes the instructions on the OneAPI login instruction site. Once you download your devcloud access key, use these instructions. Also note that if you are inside the Intel firewall, the instructions differ so pay close attention to the changes in the config file if you are an Intel employee accessing the FPGA devcloud.
+This set of instructions superscedes the instructions on the OneAPI login instruction site. Once you download your devcloud access key, use these instructions. Also note that if you are inside a firewall (e.g., Intel's firewall for Intel employees), the instructions differ so pay close attention to the changes in the config file if you are accessing the FPGA devcloud from behind a firewall.
 
 Perform steps through section 5.3 and you will be able to run various workflows found in our Quickstart guides. Information after this section is useful for topics such as batch flows (recommended), graphics, and job control.
 
@@ -69,7 +69,7 @@ If you already have a Devcloud account, click [here](#connection-methods) to ski
 
 **https://intelsoftwaresites.secure.force.com/fpgadevcloud**
 
-Once you've signed up, you should get an immidate screen response with your new user ID and instructions on how to set up your account. You will also receive a follow up email from Intel Devcloud which can take **1 hr** giving you a record of your user ID and your user ID key for login. This is an example of the resulting email which will be sent to you:
+Once you've signed up, you should get an immidate screen response with your new user ID and instructions on how to set up your account. You will also receive a follow up email from Intel Devcloud which can take **1 hour** giving you a record of your user ID and your user ID key for login. This is an example of the resulting email which will be sent to you:
 
 ```
 Welcome "user name",
@@ -166,14 +166,14 @@ To start the process:
    chmod 600 ~/.ssh/config
    ```
 
-**The next steps to connect to the Intel Devcloud are different for usage inside and outside the Intel Firewall. Select the correct usage option below:** 
+**The next steps to connect to the Intel Devcloud are different for usage inside and outside a firewall. Select the correct usage option below:** 
 
-[Public User](#public-user---anyone-not-working-at-intel)\
-[User Inside Intel Firewall](#user-inside-intel-firewall)
+[Public User](#public-user---anyone-not-working-inside-firewall)\
+[User Inside a Firewall](#user-inside-a-firewall)
 
 ## 4.0 Connection to Devcloud
 
-### Public User - anyone not working at Intel
+### Public User - anyone not working inside a firewall
 
 After the preparation steps above, you should be able to log in to your login node in the Intel Devcloud without a password. 
 
@@ -199,9 +199,9 @@ Next time you log in, you will only need to type ```ssh devcloud ```
 
 Click [here](#50-Connecting-to-Servers-Running-FPGA-Development-Software) to skip to the next step. 
 
-### User Inside Intel Firewall
+### User Inside a Firewall
 
-You cannot log into the Intel Devcloud through the above steps if you are within the Intel firewall. This section contains the tunneling commands and MobaXterm modifications needed to bypass the firewall to connect to the Devcloud. 
+You cannot log into the Intel Devcloud through the above steps if you are within a firewall. This section contains the tunneling commands and MobaXterm modifications needed to bypass the firewall to connect to the Devcloud. 
 
 ### 4.1 Add socat Package
 
@@ -215,7 +215,7 @@ You cannot log into the Intel Devcloud through the above steps if you are within
 
 2. Install the **socat package**. This will take approximately 9 minutes to install.
 
-### 4.2  Preparing Configuration file for Intel firewall users
+### 4.2  Preparing Configuration file for users behind a firewall
 
 1. Add additional entries into your config file: 
 
@@ -251,7 +251,7 @@ X11 forwarding request failed on channel 0
 
 is expected behavior.
 
-Note you can also connect outside of the firewall using ssh devcloud, but make sure your VPN is off. This will not work when at an Intel facility unless you connect to the outside network.
+Note you can also connect outside of the firewall using ssh devcloud, but make sure your VPN is off. This will not work when at inside a firewalled facility (like Intel employees may have active) unless you connect to the outside network.
 
 ## 5.0 Connecting to Servers Running FPGA Development Software
 
@@ -578,12 +578,12 @@ Repoen the MobaXterm window, open a second session tab by clicking on the "+" as
 
 This tab will a launch terminal running UNIX commands on your local (PC) machine. You should have two tabs open. The first tab should be logged into login-2. The second tab will be logged in to your PC. Recall when you ran devcloud_login you see a message that needs to be pasted into the PC tab as described in the next section. **To open the port for graphics usage, use the devcloud_login function (sec 5.1) and copy and paste the appropriate ssh command shown as an output from this function into the tab that is logged into your PC**. 
 
-Examples of this command are shown below based on inside and outside the Intel firewall. 
+Examples of this command are shown below based on inside and outside a firewall. 
 
 ```
 ssh -L 4002:<s00X-nXXX>:22 devcloud			# Public User Example
 
-ssh -L 4002:<s00X-nXXX>:22 colfax-intel		# Inside Intel Firewall Example
+ssh -L 4002:<s00X-nXXX>:22 colfax-intel		# Inside a Firewall Example
 ```
 
 ![image](https://user-images.githubusercontent.com/56968566/69987632-c7824300-14f4-11ea-84c7-682490dc19f8.png)
@@ -675,7 +675,7 @@ Under the Tools tab on the Main Bar, select Options. In the General Category, se
 
 ### 7.1 Transferring Files to and from the Devcloud with SCP 
 
-**You can only use the local terminal on your PC to transfer files. Note: If on Intel firewall, replace devcloud with colfax-intel.**
+**You can only use the local terminal on your PC to transfer files. Note: If on a firewall, replace devcloud with colfax-intel.**
 
 Transferring Files from your localnode terminal. Your prompt on mobaxterm would be of the form: /home/mobaxterm (localnode)
 
@@ -858,7 +858,7 @@ If the USB Blaster is not configured, complete the following steps:
 
 - [ ] Follow the login prompts, download, and install the Programmer. 
 
-- [ ] For Intel Employees within the Firewall, in the File Explorer Search window, search ''**Programmer**'', and select **Run as administrator**. For other users, you can open the Programmer (Quartus Prime 18.1) normally. 
+- [ ] For usage within the Firewall, in the File Explorer Search window, search ''**Programmer**'', and select **Run as administrator**. For other users, you can open the Programmer (Quartus Prime 18.1) normally. 
 
   <img src="https://user-images.githubusercontent.com/56968566/67718645-64e5d680-f98d-11e9-9987-ea2d1ea6344c.png" alt="programmer" width=77% />
 
